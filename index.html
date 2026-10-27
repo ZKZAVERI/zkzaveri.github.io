@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Z.K. Zaveri · consulting firm</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0b0f;
+      background-image: radial-gradient(circle at 20% 30%, #1c1c2b 0%, #050507 90%);
+      min-height: 100vh;
+      color: #eaeef2;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    /* glass container / main app */
+    .app {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(15, 15, 20, 0.55);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 42px;
+      padding: 24px 22px 32px;
+      box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    /* ----- LOGO (text + icon) ----- */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 0 18px 8px;
+      cursor: default;
+    }
+
+    .logo-icon {
+      background: linear-gradient(135deg, #ffffff30, #ffffff08);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 18px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 18px -6px #00000040;
+    }
+
+    .logo-icon i {
+      font-size: 26px;
+      color: #cfd9e6;
+      text-shadow: 0 2px 8px #ffffff20;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #f0f4fa, #b0c0d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 6px #00000030;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      background: none;
+      -webkit-text-fill-color: #8899aa;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ----- navigation menu (glass pill) ----- */
+    .nav-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 30px;
+      padding: 6px;
+      background: rgba(20, 20, 30, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 8px 18px -8px #00000060;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #b0bec9;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: -0.01em;
+      border: 1px solid transparent;
+      flex: 1 1 auto;
+      min-width: 90px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .nav-btn i {
+      margin-right: 8px;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f0f6ff;
+      border-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-btn.active {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 16px -6px #00000080, inset 0 1px 0 #ffffff18;
+      font-weight: 600;
+    }
+
+    /* ----- main content sections (glass cards) ----- */
+    .section {
+      display: none;
+      animation: fadeGlass 0.35s ease;
+    }
+
+    .section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeGlass {
+      0% { opacity: 0.4; transform: translateY(8px); filter: blur(2px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    .glass-card {
+      background: rgba(25, 25, 35, 0.45);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 32px;
+      padding: 30px 28px;
+      box-shadow: 0 15px 30px -12px #00000080, inset 0 1px 1px rgba(255, 255, 255, 0.03);
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 1.9rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff, #c0d0e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h2 i {
+      font-size: 1.8rem;
+      background: none;
+      -webkit-text-fill-color: #9aaec2;
+    }
+
+    p, li {
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-weight: 400;
+      font-size: 1.05rem;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 20px 0 10px;
+    }
+
+    .service-item {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-weight: 500;
+      color: #d6e2f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px -4px #00000040;
+    }
+
+    .service-item i {
+      color: #9fb7d0;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .service-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .service-detail-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .service-detail-item {
+      border-left: 2px solid rgba(255, 255, 255, 0.15);
+      padding-left: 20px;
+      margin-bottom: 6px;
+    }
+
+    .service-detail-item h3 {
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #eef4fc;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-detail-item p {
+      color: #b0c0d4;
+      font-size: 0.98rem;
+    }
+
+    /* contact form and links */
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 16px;
+      margin-bottom: 30px;
+    }
+
+    .contact-info a {
+      color: #b8ccf0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 10px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .contact-info a i {
+      font-size: 1.2rem;
+      color: #a0b8d4;
+    }
+
+    .contact-info a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .embed-wrapper {
+      background: rgba(10, 10, 16, 0.5);
+      backdrop-filter: blur(6px);
+      border-radius: 24px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      margin-top: 18px;
+    }
+
+    iframe {
+      width: 100%;
+      min-height: 550px;
+      border: none;
+      border-radius: 18px;
+      background: #0e0e14;
+      display: block;
+    }
+
+    /* about text */
+    .about-highlight {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 24px;
+      padding: 22px 24px;
+      margin: 20px 0 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .about-highlight p {
+      margin-bottom: 12px;
+    }
+
+    .about-highlight i {
+      color: #9ab0cc;
+      margin-right: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 60px;
+      padding: 4px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #b8cde0;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* footer mini */
+    .footer-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: #6a7a8a;
+      letter-spacing: 0.02em;
+    }
+
+    /* mobile */
+    @media (max-width: 640px) {
+      body { padding: 8px; }
+      .app { padding: 18px 14px 24px; border-radius: 32px; }
+      .logo-text { font-size: 1.5rem; }
+      .logo-text span { font-size: 0.75rem; letter-spacing: 0.15em; }
+      .logo-icon { width: 44px; height: 44px; }
+      .logo-icon i { font-size: 22px; }
+
+      .nav-menu {
+        gap: 4px;
+        padding: 4px;
+        border-radius: 50px;
+      }
+      .nav-btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        min-width: unset;
+        flex: 1 0 auto;
+      }
+      .nav-btn i {
+        margin-right: 4px;
+        font-size: 0.8rem;
+      }
+      h2 { font-size: 1.6rem; }
+      .glass-card { padding: 22px 18px; }
+      .service-grid { grid-template-columns: 1fr; }
+      .contact-info a { padding: 8px 14px; font-size: 0.9rem; width: 100%; justify-content: center; }
+      iframe { min-height: 480px; }
+    }
+
+    @media (max-width: 380px) {
+      .nav-btn {
+        font-size: 0.75rem;
+        padding: 8px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- LOGO with text -->
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-briefcase"></i>
+      </div>
+      <div class="logo-text">
+        Z.K. Zaveri
+        <span>CONSULTING FIRM</span>
+      </div>
+    </div>
+
+    <!-- Navigation menu (glass) -->
+    <div class="nav-menu" id="navMenu">
+      <button class="nav-btn active" data-section="about"><i class="fas fa-building"></i> About</button>
+      <button class="nav-btn" data-section="services"><i class="fas fa-cogs"></i> Services</button>
+      <button class="nav-btn" data-section="contact"><i class="fas fa-envelope"></i> Contact</button>
+    </div>
+
+    <!-- ========== ABOUT SECTION ========== -->
+    <div id="about" class="section active-section">
+      <div class="glass-card">
+        <h2><i class="fas fa-users"></i> About Z.K. Zaveri</h2>
+        <div class="about-highlight">
+          <p><i class="fas fa-quote-left" style="opacity:0.7;"></i> Z.K. Zaveri is a modern consulting firm built on trust, precision, and deep expertise. We partner with businesses and startups to navigate financial, legal, and strategic challenges — turning complexity into clarity.</p>
+        </div>
+        <p style="margin-bottom:18px;">With a strong foundation in financial advisory, legal consulting, and business strategy, we help organisations achieve sustainable growth. Our team brings together seasoned professionals from diverse domains, ensuring every client receives tailored, actionable solutions.</p>
+        <p style="margin-bottom:10px;"><strong style="color:#e0ecff;">Startup focus:</strong> We provide end-to-end support for early-stage ventures — from company registration, funding arrangement, legal compliance, to financial planning and investor negotiation.</p>
+        <div style="margin-top:24px;">
+          <span class="badge"><i class="fas fa-check-circle" style="margin-right:6px;"></i> 15+ years combined experience</span>
+          <span class="badge"><i class="fas fa-rocket" style="margin-right:6px;"></i> Startup-friendly</span>
+          <span class="badge"><i class="fas fa-globe" style="margin-right:6px;"></i> Global standards</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SERVICES SECTION (list + detail) ========== -->
+    <div id="services" class="section">
+      <div class="glass-card">
+        <h2><i class="fas fa-cogs"></i> Our Services</h2>
+        <!-- full list of services as grid -->
+        <div class="service-grid">
+          <div class="service-item"><i class="fas fa-chart-line"></i> Financial Advisory</div>
+          <div class="service-item"><i class="fas fa-gavel"></i> Legal Consulting</div>
+          <div class="service-item"><i class="fas fa-tag"></i> Pricing Strategy</div>
+          <div class="service-item"><i class="fas fa-piggy-bank"></i> Financial Planning</div>
+          <div class="service-item"><i class="fas fa-file-invoice-dollar"></i> Financial Consulting</div>
+          <div class="service-item"><i class="fas fa-handshake"></i> Negotiation</div>
+          <div class="service-item"><i class="fas fa-calculator"></i> Budgeting</div>
+          <div class="service-item"><i class="fas fa-user-tie"></i> Human Resources (HR)</div>
+          <div class="service-item"><i class="fas fa-chart-pie"></i> Business Consulting</div>
+          <div class="service-item"><i class="fas fa-laptop-code"></i> IT Consulting</div>
+        </div>
+
+        <!-- startup + legal / funding extra (detailed) -->
+        <div style="margin: 30px 0 10px;">
+          <h3 style="font-weight: 500; font-size: 1.5rem; color: #e2edff; margin-bottom: 12px;"><i class="fas fa-seedling" style="margin-right: 10px;"></i> Startup & legal services</h3>
+          <div class="service-detail-list">
+            <div class="service-detail-item">
+              <h3>Funding arrangement</h3>
+              <p>We connect startups with the right investors, prepare pitch decks, and negotiate funding terms — from seed to Series A.</p>
+            </div>
+            <div class="service-detail-item">
+              <h3>Registration & legal compliance</h3>
+              <p>Company incorporation, trademark, regulatory filings, and complete legal setup for new ventures.</p>
+            </div>
+            <div class="service-detail-item">
+              <h3>Legal services for startups</h3>
+              <p>Contract drafting, IP protection, founder agreements, and ongoing legal advisory tailored for early-stage companies.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- short description of each service -->
+        <div style="margin-top: 40px;">
+          <h3 style="font-weight: 500; font-size: 1.4rem; color: #d0e0f0; margin-bottom: 18px;"><i class="fas fa-list-ul" style="margin-right: 10px;"></i> Service details</h3>
+          <div style="display: grid; gap: 18px;">
+            <div><span style="font-weight:600; color:#fff;">Financial Advisory:</span> <span style="color:#b0c4dc;">Strategic guidance on investments, risk management, and capital structure.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Legal Consulting:</span> <span style="color:#b0c4dc;">Corporate law, contracts, compliance, and dispute resolution support.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Pricing Strategy:</span> <span style="color:#b0c4dc;">Data-driven pricing models to maximise profitability and market share.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Financial Planning:</span> <span style="color:#b0c4dc;">Long-term wealth management and business financial forecasting.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Financial Consulting:</span> <span style="color:#b0c4dc;">Turnaround advisory, cost optimisation, and financial restructuring.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Negotiation:</span> <span style="color:#b0c4dc;">Expert negotiation for M&A, partnerships, and vendor contracts.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Budgeting:</span> <span style="color:#b0c4dc;">Zero-based budgeting, rolling forecasts, and performance tracking.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Human Resources (HR):</span> <span style="color:#b0c4dc;">Talent acquisition, policy design, and HR tech implementation.</span></div>
+            <div><span style="font-weight:600; color:#fff;">Business Consulting:</span> <span style="color:#b0c4dc;">Growth strategy, market entry, operational excellence, and digital transformation.</span></div>
+            <div><span style="font-weight:600; color:#fff;">IT Consulting:</span> <span style="color:#b0c4dc;">Technology roadmap, cybersecurity, cloud strategy, and IT governance.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CONTACT SECTION (google form embed) ========== -->
+    <div id="contact" class="section">
+      <div class="glass-card">
+        <h2><i class="fas fa-paper-plane"></i> Contact us</h2>
+        <div class="contact-info">
+          <a href="mailto:z.k.zaveri@protonmail.com"><i class="fas fa-envelope"></i> z.k.zaveri@protonmail.com</a>
+          <a href="https://www.linkedin.com/company/zkzaveri/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn /zkzaveri</a>
+        </div>
+        <p style="margin-bottom: 8px; color: #b8c8dd;">Fill the form below — we'll respond within 24 hours.</p>
+        <!-- Google form embed (placeholder form – replace with your actual google form) 
+             using a real google form embed sample (public demo form) for visual. 
+             Replace the src with your own google form embed link. -->
+        <div class="embed-wrapper">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScENtxyt91z_FMTM4DwNlcMUcsMGkVmk9BS9Ytdmb_pRUePtA/viewform?embedded=true" width="240" height="620" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+        <p style="font-size:0.85rem; margin-top:16px; color:#8a9bb0;"><i class="fas fa-lock" style="margin-right:6px;"></i> Your information is confidential. We'll never share your details.</p>
+      </div>
+    </div>
+
+    <!-- subtle footer -->
+    <div class="footer-note">
+      Z.K. Zaveri · consulting firm · since 2024
+    </div>
+  </div>
+
+  <!-- JavaScript for menu switching -->
+  <script>
+    (function() {
+      const navButtons = document.querySelectorAll('.nav-btn');
+      const sections = {
+        about: document.getElementById('about'),
+        services: document.getElementById('services'),
+        contact: document.getElementById('contact')
+      };
+
+      function activateSection(sectionId) {
+        // remove active class from all sections
+        Object.values(sections).forEach(sec => {
+          if (sec) sec.classList.remove('active-section');
+        });
+        // show target
+        if (sections[sectionId]) {
+          sections[sectionId].classList.add('active-section');
+        }
+        // update buttons
+        navButtons.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.section === sectionId) {
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      // add click handlers
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const targetSection = this.dataset.section;
+          if (targetSection) {
+            activateSection(targetSection);
+          }
+        });
+      });
+
+      // set default active based on button (about already active via html)
+      // ensure if the html has active class but section mismatch, fix:
+      // we manually keep about active
+      // but also handle possible hash? no, just maintain.
+
+      // Edge case: if user clicks on something weird, still fine.
+
+      // initial: make sure about is shown (already active-section in html)
+      // and buttons match.
+      // if some other button has 'active' class from html? we can clean:
+      const currentActiveBtn = document.querySelector('.nav-btn.active');
+      if (currentActiveBtn) {
+        const sec = currentActiveBtn.dataset.section;
+        if (sec && sections[sec]) {
+          // ensure that section is active
+          Object.values(sections).forEach(s => s.classList.remove('active-section'));
+          sections[sec].classList.add('active-section');
+        }
+      } else {
+        // fallback: about active
+        activateSection('about');
+      }
+    })();
+  </script>
+</body>
+</html>
